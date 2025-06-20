@@ -26,4 +26,5 @@ jobs:
 
       - name: Run preprocessing
         run: |
-          python preprocessing/automate_Nama-siswa.py
+          python preprocessing/automate_Muchlish.py
+          
