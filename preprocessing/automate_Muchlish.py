@@ -22,7 +22,7 @@ def preprocess_pipeline(df: pd.DataFrame):
     return df_cleaned
 
 if __name__ == "__main__":
-    df_raw = pd.read_csv(r'D:\DATA\Digitalent\Proyek MSML\MSML_Submission_Muchlish\dataset\updated_pollution_dataset.csv')
+    df_raw = pd.read_csv('updated_pollution_dataset.csv')
     df_ready = preprocess_pipeline(df_raw)
-    df_ready.to_csv(r'D:\DATA\Digitalent\Proyek MSML\MSML_Submission_Muchlish\MLProject\dataset_preprocessing.csv', index=False)
+    df_ready.to_csv('updated_pollution_dataset_preprocessing.csv', index=False)
 
