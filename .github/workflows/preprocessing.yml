@@ -29,7 +29,7 @@ jobs:
           python preprocessing/automate_Muchlish.py
 
       - name: Upload preprocessed dataset
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: updated_preprocessed_data
           path: namadataset_preprocessing/updated_pollution_dataset_preprocessing.csv
