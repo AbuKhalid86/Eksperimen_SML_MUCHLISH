@@ -32,12 +32,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: updated_preprocessed_data
-          path: namadataset_preprocessing/updated_pollution_dataset_preprocessing.csv
+          path: dataset_preprocessing/updated_pollution_dataset_preprocessing.csv
           
       - name: Commit hasil preprocessing ke repo
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add namadataset_preprocessing/updated_pollution_dataset_preprocessing.csv
+          git add dataset_preprocessing/updated_pollution_dataset_preprocessing.csv
           git commit -m "Auto-commit: Hasil preprocessing data"
           git push
