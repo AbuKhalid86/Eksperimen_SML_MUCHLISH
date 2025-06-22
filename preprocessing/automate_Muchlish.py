@@ -2,7 +2,6 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 def preprocess_pipeline(df: pd.DataFrame):
-    # Gunakan kode preprocessing dari Colab:
     df = df.copy()
     df['PM10'] = df['PM10'].clip(lower=0)
     df['SO2'] = df['SO2'].clip(lower=0)
