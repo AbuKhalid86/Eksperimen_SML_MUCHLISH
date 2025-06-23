@@ -1,27 +1,23 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.model_selection import train_test_split
 
-def preprocess_pipeline(df: pd.DataFrame):
-    df = df.copy()
-    df['PM10'] = df['PM10'].clip(lower=0)
-    df['SO2'] = df['SO2'].clip(lower=0)
-    df['Humidity'] = df['Humidity'].clip(upper=100)
+df = pd.read_csv("dataset_raw.csv")
 
-    X = df.drop('Air Quality', axis=1)
-    y = df['Air Quality']
+df["PM10"] = df["PM10"].clip(lower=0)
+df["SO2"] = df["SO2"].clip(lower=0)
+df["Humidity"] = df["Humidity"].clip(upper=100)
 
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+X = df.drop("Air Quality", axis=1)
+y = df["Air Quality"]
 
-    le = LabelEncoder()
-    y_encoded = le.fit_transform(y)
+X_scaled = StandardScaler().fit_transform(X)
+y_encoded = LabelEncoder().fit_transform(y)
 
-    df_cleaned = pd.DataFrame(X_scaled, columns=X.columns)
-    df_cleaned['Air Quality'] = y_encoded
-    return df_cleaned
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled, y_encoded, test_size=0.2, stratify=y_encoded, random_state=42
+)
 
-if __name__ == "__main__":
-    df_raw = pd.read_csv('dataset_raw/updated_pollution_dataset.csv')
-    df_ready = preprocess_pipeline(df_raw)
-    df_ready.to_csv('dataset_preprocessing/updated_pollution_dataset_preprocessing.csv', index=False)
+pd.DataFrame(X_train, columns=X.columns).assign(target=y_train).to_csv("train_data_scaled.csv", index=False)
+pd.DataFrame(X_test, columns=X.columns).assign(target=y_test).to_csv("test_data_scaled.csv", index=False)
 
