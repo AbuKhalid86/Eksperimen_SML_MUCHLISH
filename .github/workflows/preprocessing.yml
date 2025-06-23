@@ -4,13 +4,12 @@ on:
   push:
     paths:
       - preprocessing/automate_Muchlish.py
-      - namadataset_raw/**
-  workflow_dispatch:  # memungkinkan manual run
+      - dataset_raw/**
+  workflow_dispatch:
 
 jobs:
   preprocessing:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -18,7 +17,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.12.7
+          python-version: '3.12.7'
 
       - name: Install dependencies
         run: |
@@ -28,20 +27,21 @@ jobs:
         run: |
           python preprocessing/automate_Muchlish.py
 
-      - name: Upload preprocessed dataset
+      - name: Upload preprocessed datasets
         uses: actions/upload-artifact@v4
         with:
-          name: updated_preprocessed_data
-          path: dataset_preprocessing/updated_pollution_dataset_preprocessing.csv
-          
+          name: preprocessed_csv_files
+          path: |
+            train_data_scaled.csv
+            test_data_scaled.csv
+
       - name: Commit hasil preprocessing ke repo
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add dataset_preprocessing/updated_pollution_dataset_preprocessing.csv
+          git add train_data_scaled.csv test_data_scaled.csv
           if ! git diff --cached --quiet; then
             git commit -m "Update hasil preprocessing"
             git push origin main
           else
             echo "Tidak ada perubahan yang perlu dikomit."
-          fi
