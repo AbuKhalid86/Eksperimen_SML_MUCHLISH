@@ -37,11 +37,17 @@ jobs:
 
       - name: Commit hasil preprocessing ke repo
         run: |
+          mkdir -p dataset_preprocessing
+          mv train_data_scaled.csv dataset_preprocessing/
+          mv test_data_scaled.csv dataset_preprocessing/
+    
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add train_data_scaled.csv test_data_scaled.csv
-          if ! git diff --cached --quiet; then
+          git add dataset_preprocessing/train_data_scaled.csv dataset_preprocessing/test_data_scaled.csv
+
+          if git diff --cached --quiet; then
+            echo "Tidak ada perubahan yang perlu dikomit."
+          else
             git commit -m "Update hasil preprocessing"
             git push origin main
-          else
-            echo "Tidak ada perubahan yang perlu dikomit."
+          fi
